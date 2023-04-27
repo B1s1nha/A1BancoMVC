@@ -32,12 +32,34 @@ public:
     Conta(Cliente c) : cliente(c) { // Construtor da classe Conta que recebe um objeto Cliente e inicializa o saldo como zero
         saldo = 0;
     }
+    void transferir(Conta &destino, float valor) {
+    if (this == &destino) {
+        cout << "Não é possível transferir para a mesma conta." << endl;
+        return;
+    }
+    if (valor <= 0) {
+        cout << "Valor inválido para transferência." << endl;
+        return;
+    }
+    if (saldo >= valor) {
+        saldo -= valor;
+        destino.depositar(valor);
+        cout << "Transferência realizada com sucesso." << endl;
+    } else {
+        cout << "Saldo insuficiente." << endl;
+    }
+}
+   
     void depositar(float valor) {
         saldo += valor;
     }
     void sacar(float valor) {
+    if (saldo >= valor) {
         saldo -= valor;
+    } else {
+        cout << "Saldo insuficiente." << endl;
     }
+}
     float getSaldo() {
         return saldo;
     }
@@ -122,6 +144,22 @@ int main() {
     controller.depositarValor(agencia, 281930450, 105.25);
     controller.depositarValor(agencia, 402937106, 95.99);
     controller.depositarValor(agencia, 763829057, 2500);
+
+    controller.exibirSaldoConta(agencia, 123456789);
+    controller.exibirSaldoConta(agencia, 987654321);
+    controller.exibirSaldoConta(agencia, 836512789);
+    controller.exibirSaldoConta(agencia, 281930450);
+    controller.exibirSaldoConta(agencia, 402937106);
+    controller.exibirSaldoConta(agencia, 763829057);
+  
+    cout << "" <<endl;
+  
+    conta1.transferir(conta2, 0); //transfere da primeira conta para a segunda
+    conta2.transferir(conta3, 100000);
+    conta4.transferir(conta3, -0.5);
+    conta5.transferir(conta5, 10);
+   
+    cout << "" <<endl;
   
     controller.exibirSaldoConta(agencia, 123456789);
     controller.exibirSaldoConta(agencia, 987654321);
